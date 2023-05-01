@@ -3,10 +3,10 @@ package jm.task.core.jdbc.util;
 import java.sql.*;
 
 public class Util {
-    private static final String URL = "jdbc:mysql://localhost:3306/mydb";
-    private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
-    private static final String USERNAME = "root";
-    private static final String PASSWORD = "root";
+    public static final String URL = "jdbc:mysql://localhost:3306/mydb";
+    public static final String DRIVER = "com.mysql.cj.jdbc.Driver";
+    public static final String USERNAME = "root";
+    public static final String PASSWORD = "root";
 
     public static Connection getConnection () {
         Connection connection = null;
