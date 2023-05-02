@@ -13,6 +13,7 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
 
     }
 
+    @Override
     public void createUsersTable() {
         String sql = "CREATE TABLE IF NOT EXISTS users" +
                 "(id BIGINT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(45), lastName VARCHAR(45), age TINYINT(2))";
@@ -24,6 +25,7 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
         }
     }
 
+    @Override
     public void dropUsersTable()  {
 
         try (Statement statement = connection.createStatement()){
@@ -33,6 +35,7 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
         }
     }
 
+    @Override
     public void saveUser(String name, String lastName, byte age)  {
 
         try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO users (name, lastName, age) " +
@@ -48,6 +51,7 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
 
     }
 
+    @Override
     public void removeUserById(long id)  {
 
         try (PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM users WHERE id = ?")) {
@@ -58,17 +62,19 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
         }
     }
 
+    @Override
     public List<User> getAllUsers() {
         List<User> userList = new ArrayList<>();
         String sql = "SELECT id, name, lastName, age FROM users";
 
-        try (Statement statement = connection.createStatement()) {
-            ResultSet resultSet = statement.executeQuery(sql);
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
                 User user = new User();
                 user.setId(resultSet.getLong("id"));
-                user.setName(resultSet.getString("name"));
+                user.setName((resultSet.getString("name")));
                 user.setLastName(resultSet.getString("lastName"));
                 user.setAge(resultSet.getByte("age"));
 
@@ -81,6 +87,7 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
         return userList;
     }
 
+    @Override
     public void cleanUsersTable()  {
 
         try (Statement statement = connection.createStatement()) {
